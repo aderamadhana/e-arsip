@@ -1,0 +1,9 @@
+{
+    "require": {
+        "phpoffice/phppresentation": "^0.9.0",
+        "phpoffice/phpspreadsheet": "^1.19.0"
+    },
+    "config": {
+        "platform-check": false
+    }
+}
