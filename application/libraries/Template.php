@@ -302,8 +302,8 @@ public function sonKey()
 		$CI->load->library('PHPMailer_Library');
 		$mail = $CI->phpmailer_library->load();  
 
-		$from = "mailgeneratorapp@gmail.com";
-	 	$from_name = "Smartsoft";
+		$from = "";
+	 	$from_name = "";
 
         
         $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -311,7 +311,7 @@ public function sonKey()
         $mail->Host = 'ssl://smtp.googlemail.com';  // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = $from;                 // SMTP username
-        $mail->Password = "mikr00yih128";                           // SMTP password
+        $mail->Password = "";                           // SMTP password
         $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 465;
         $mail->CharSet = 'iso-8859-1';
