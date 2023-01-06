@@ -1,0 +1,514 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Sponsorship
+        <small>Master</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">master</a></li>
+        <li class="active">Sponsorship</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+    <form method="POST" action="<?= base_url('master/Sponsorship/update') ?>" id="upload-create" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<?= $sponsorship['id'] ?>">
+      <div class="row">
+        <div class="col-xs-2">
+          <a href="<?= base_url('master/Sponsorship/') ?>" class="btn btn-block btn-default"> <i class="fa fa-arrow-left"></i> Kembali ke List Sponsor </a>
+        </div>
+        <div class="col-xs-10">
+          
+          <div role="tabpanel">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                  <li role="presentation" class="active">
+                      <a href="#awal" aria-controls="awal" role="tab" data-toggle="tab" style="color:#000">Data Awal</a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#kategori-lingkup" aria-controls="kategori-lingkup" role="tab" style="color:#000" data-toggle="tab">Kategori & Lingkup</a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#pemberi-sponsor" aria-controls="pemberi-sponsor" role="tab" style="color:#000" data-toggle="tab">Pemberi Sponsor</a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#keuntungan" aria-controls="keuntungan" role="tab" style="color:#000" data-toggle="tab">Keuntungan</a>
+                  </li>
+                  <li role="presentation">
+                      <a href="#keterangan" aria-controls="keterangan" role="tab" style="color:#000" data-toggle="tab">Keterangan</a>
+                  </li>
+              </ul>
+          
+              <!-- Tab panes -->
+              <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="awal">
+                    <div class="box">
+                      <div class="box-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                                <label for="form-nama_kegiatan">Nama acara / kegiatan</label>
+                                <input type="text" class="form-control" id="form-nama_kegiatan" placeholder="Masukan Nama kegiatan" name="dt[nama_kegiatan]" value="<?= $sponsorship['nama_kegiatan'] ?>">
+                                <small class="text-danger">* Inputkan sesuai nama acara</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="form-tanggal">Tanggal</label>
+                                <input type="text" class="form-control tgl" id="form-tanggal" placeholder="Masukan Tanggal" name="dt[tanggal]" value="<?= $sponsorship['tanggal'] ?>">
+                            </div>  
+                            <div class="form-group">
+                              <label for="form-tentang_acara">Tentang acara</label>
+                              <textarea name="dt[tentang_acara]" class="form-control"><?= $sponsorship['tentang_acara'] ?></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="kategori-lingkup">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form-klasifikasi_id">Klasifikasi Kegiatan</label>
+                                <select name="dt[klasifikasi_id]" class="form-control select2" id="form-klasifikasi_id" style="width:100%" onchange="checkklasifikasi()">
+                                  <?php 
+                                  $klasifikasi = $this->mymodel->selectWhere('klasifikasi',null);
+                                  foreach ($klasifikasi as $klasifikasi_record) {
+                                    if($sponsorship['klasifikasi_id']==$klasifikasi_record['id']){
+                                      echo "<option value=".$klasifikasi_record['id']." selected>".$klasifikasi_record['klasifikasi']."</option>";
+                                    }else{
+                                      echo "<option value=".$klasifikasi_record['id'].">".$klasifikasi_record['klasifikasi']."</option>";
+                                    }
+                                  }
+                                  ?>
+                                  <option value="0" <?php if($sponsorship['klasifikasi_id']==0) echo "selected" ?>>Lainnya</option>
+                                </select>
+                                <input type="text" name="dt[klasifikasi_nama]" class="form-control" id="form-klasifikasi_nama" value="<?= $sponsorship['klasifikasi_nama'] ?>">
+                                <script>
+                                  function checkklasifikasi(){
+                                    let klasifikasi = $("#form-klasifikasi_id").val();
+                                    if(klasifikasi==0) $("#form-klasifikasi_nama").show();
+                                    else $("#form-klasifikasi_nama").hide();
+                                  }
+
+                                  checkklasifikasi()
+                                </script>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-lingkup_id">Lingkup Kegiatan</label>
+                                <select name="dt[lingkup_id]" id="form-lingkup_id" class="form-control select2" style="width:100%" onchange="checklingkup()">
+                                  <?php 
+                                  $lingkup = $this->mymodel->selectWhere('lingkup',null);
+                                  foreach ($lingkup as $lingkup_record) {
+                                      if($sponsorship['lingkup_id']==$lingkup_record['id']){
+                                        echo "<option value=".$lingkup_record['id']." selected>".$lingkup_record['lingkup']."</option>";
+                                      }else{
+                                        echo "<option value=".$lingkup_record['id'].">".$lingkup_record['lingkup']."</option>";
+                                      }
+                                  }
+                                  ?>
+                                  <option value="0"  <?php if($sponsorship['lingkup_id']==0) echo "selected" ?>>Lainnya</option>
+                                </select>
+                                <input type="text" name="dt[lingkup_nama]" class="form-control" id="form-lingkup_nama" value="<?= $sponsorship['lingkup_nama'] ?>">
+                                <script>
+                                  function checklingkup(){
+                                    let lingkup = $("#form-lingkup_id").val();
+                                    if(lingkup==0) $("#form-lingkup_nama").show();
+                                    else $("#form-lingkup_nama").hide();
+                                  }
+
+                                  checklingkup()
+                                </script>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="form-pic">Pic Sponsorship </label>
+                                <select name="pic[]" class="form-control select2" style="width:100%" multiple="multiple">
+                                  <?php 
+                                  $pic = json_decode($sponsorship['pic']);
+                                  $user = $this->mymodel->selectWhere('user',null);
+                                  foreach ($user as $user_record) {
+                                      if(in_array($user_record['id'],$pic)){
+                                        echo "<option value=".$user_record['id']." selected>".$user_record['name']."</option>";
+
+                                      }else{
+                                        echo "<option value=".$user_record['id'].">".$user_record['name']."</option>";
+
+                                      }
+                                  }
+                                  ?>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="pemberi-sponsor">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form-kantor_id">Pemberi Sponsor</label>
+                                <select name="dt[kantor_id]" class="form-control select2" style="width:100%">
+                                  <?php 
+                                  $kantor = $this->mymodel->selectWhere('kantor',null);
+                                  foreach ($kantor as $kantor_record) {
+                                      if($sponsorship['kantor_id']==$kantor_record['id']){
+                                        echo "<option value=".$kantor_record['id']." selected>".$kantor_record['kantor']."</option>";
+                                      }else{
+                                        echo "<option value=".$kantor_record['id'].">".$kantor_record['kantor']."</option>";
+                                      }
+                                  }
+                                  ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-lingkup_kerjasama">Lingkup Kerjasama/Keuntungan</label>
+                                <textarea name="dt[lingkup_kerjasama]" class="form-control"><?= $sponsorship['lingkup_kerjasama'] ?></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="keuntungan">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                          
+                            <table class="table table-condensed table-hover">
+                              <tbody>
+                              <?php
+                              $keuntungan_id = json_decode($sponsorship['keuntungan_id']);
+                              $keuntungan = $this->mymodel->selectWhere('keuntungan',null);
+                              foreach($keuntungan as $untung){
+                              ?>
+                                <tr>
+                                  <td style="width:90%"><?= $untung['keuntungan'] ?></td>
+                                  <td style="width:10%" class="text-center">
+                                    <input type="checkbox" name="keuntungan_id[]" id="" <?php if(in_array($untung['id'],$keuntungan_id)) echo "checked" ?> value="<?= $untung['id'] ?>">
+                                  </td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+                              <?php
+                                foreach($keuntungan_id as $k){
+                                  if(!is_numeric($k)) $text = $k;
+                                }
+                              ?>
+                                <tr>
+                                  <td colspan="2"><input type="text" class="form-control input-sm" name="keuntungan_id[]" id="" value="<?= $text ?>"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          
+                          </div>
+                          <div class="col-md-6">
+                              <button type="button" class="btn btn-default btn-sm pull-right" onclick="addrow()"><i class="fa fa-upload"></i> Tambah File</button>
+                              <br>
+                              <br>
+                              <table class="table table-condensed table-bordered table-hover">
+                                <thead>
+                                  <tr style="background:#f3f3f3">
+                                    <th>Nama Dokumen</th>
+                                    <th>File</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody id="body-files">
+                                <?php
+                                foreach(json_decode($sponsorship['files']) as $files){
+                                  ?>
+                                  <tr>
+                                    <td><?= $files->name ?>
+                                    <input type="hidden" name="nama_files_old[]" value="<?= $files->name ?>" id="">
+                                    <input type="hidden" name="files_old[]" value="<?= $files->dir ?>" id="">
+                                    </td>
+                                    <td><a href="<?= base_url('webfile/'.$files->dir) ?>" target="_blank"><?= $files->dir ?></a></td>
+                                    <td>
+                                      <a class="btn btn-xs btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+                                    </td>
+                                  </tr>                                  
+                                  <?php
+                                }
+                              ?>
+                                </tbody>
+                              </table>
+                              <script>
+                                function addrow(){
+                                  let rows = `
+                                  <tr>
+                                    <td>
+                                      <input type="text" class="form-control input-sm" name="nama_files[]">
+                                    </td>
+                                    <td>
+                                      <input type="file" name="files[]">
+                                    </td>
+                                    <td>
+                                       <a class="btn btn-xs btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+                                    </td>
+                                  </tr>
+                                  `;
+                                  $("#body-files").append(rows)
+                                }
+                              </script>
+                              
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="keterangan">
+                    <div class="box">
+                      <div class="box-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <table class="table table-condensed table-hover">
+                              <tbody>
+                                <tr>
+                                  <td>a.</td>
+                                  <td>Nilai Sponsor</td>
+                                  <td>
+                                    <input type="text" class="form-control input-sm money" name="dt[nilai_sponsor]" id="" value="<?= $sponsorship['nilai_sponsor'] ?>">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>b.</td>
+                                  <td>Nilai Sponsor Termaksud Pajak ?</td>
+                                  <td>
+                                    <input type="radio" name="dt[is_sponsor]" value="1" id="" <?= ($sponsorship['is_sponsor']==1)? 'checked' : '' ?>> Ya
+                                    <input type="radio" name="dt[is_sponsor]" value="0" id="" <?= ($sponsorship['is_sponsor']==0)? 'checked' : '' ?>> Tidak
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>c.</td>
+                                  <td>Termin Pembayaran</td>
+                                  <td>
+                                    <input type="text" class="form-control input-sm" name="dt[termin_pembayaran]" id="" value="<?= $sponsorship['termin_pembayaran'] ?>">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>d.</td>
+                                  <td>Sharing Dana</td>
+                                  <td>
+                                    <input type="radio" name="dt[is_sharing_dana]" value="1" onchange="changesharing()" <?= ($sponsorship['is_sharing_dana']==1)? 'checked' : '' ?>> Ya
+                                    <input type="radio" name="dt[is_sharing_dana]" value="0" onchange="changesharing()" <?= ($sponsorship['is_sharing_dana']==0)? 'checked' : '' ?>> Tidak
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>e.</td>
+                                  <td>Kegiatan Terlaksana?</td>
+                                  <td>
+                                    <input type="radio" name="dt[is_kegiatan_terlaksana]" value="1" id="" <?= ($sponsorship['is_kegiatan_terlaksana']==1)? 'checked' : '' ?>> Ya
+                                    <input type="radio" name="dt[is_kegiatan_terlaksana]" value="0" id="" <?= ($sponsorship['is_kegiatan_terlaksana']==0)? 'checked' : '' ?>> Tidak
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>f.</td>
+                                  <td>Catatan Kegiatan</td>
+                                  <td>
+                                    <textarea name="dt[catatan_kegiatan]" class="form-control" id=""  rows="10"><?= $sponsorship['catatan_kegiatan'] ?></textarea>
+                                    <small class="text-danger">*Kosongkan jika kegiatan terlaksana</small>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>g.</td>
+                                  <td>PIC Pelaksana</td>
+                                  <td>
+                                    <input type="text" class="form-control" name="dt[pic_terlaksana]" id="" value="<?= $sponsorship['pic_terlaksana'] ?>">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>h.</td>
+                                  <td>No Kontak Pelaksana</td>
+                                  <td>
+                                    <input type="text" class="form-control" name="dt[nomor_kontak_pelaksana]" id="" value="<?= $sponsorship['nomor_kontak_pelaksana'] ?>">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>i.</td>
+                                  <td>Alamat Pelaksana</td>
+                                  <td>
+                                    <input type="text" class="form-control" name="dt[alamat_pelaksana]" id="" value="<?= $sponsorship['alamat_pelaksana'] ?>">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>j.</td>
+                                  <td>Pertimbangan Sponsor/Bantuan Dana</td>
+                                  <td>
+                                    <textarea name="dt[pertimbangan_sponsor]" class="form-control" id=""  rows="10"><?= $sponsorship['pertimbangan_sponsor'] ?></textarea>
+                                  </td>
+                                </tr>
+                              
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col-md-6">
+                            <script>
+                            // setTimeout(() => {
+                            //    $("#table-sharing").hide();
+                            // }, 1000);
+                              function changesharing(){
+                                if($("input[name='dt[is_sharing_dana]']:checked").val()==1)  $("#table-sharing").show()
+                                else $("#table-sharing").hide();
+                              }
+
+                              changesharing()
+                            </script>
+                            <button type="button" class="btn btn-default btn-sm pull-right" onclick="addrowstable()"><i class="fa fa-plus-circle"></i> Add Row</button>
+                              <br>
+                              <br>
+                              
+                            <table class="table table-condensed table-hover table-bordered" id="table-sharing">
+                              <thead>
+                                <tr style="background:#f3f3f3">
+                                  <th>Kantor / Divisi</th>
+                                  <th width="30%">Presentase</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody id="body-sharing">
+                              <?php
+                              foreach(json_decode($sponsorship['sharing']) as $sharing){
+                              ?>
+                                <tr>
+                                  <td>
+                                    <input type="text" class="form-control input-sm" name="kantor[]" id="" value="<?= $sharing->kantor ?>">
+                                  </td>
+                                  <td>
+                                    <input type="number" class="form-control input-sm" name="presentase[]" id="" value="<?= $sharing->presentase ?>">
+                                  </td>
+                                  <td>
+                                       <a class="btn btn-xs btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+
+                                
+                              </tbody>
+                            </table>
+
+                            <script>
+                              function addrowstable(){
+                                let rows  = `
+                                <tr>
+                                  <td>
+                                    <input type="text" class="form-control input-sm" name="kantor[]" id="">
+                                  </td>
+                                  <td>
+                                    <input type="number" class="form-control input-sm" name="presentase[]" id="">
+                                  </td>
+                                  <td>
+                                       <a class="btn btn-xs btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+                                `;
+                                $("#body-sharing").append(rows)
+
+                              }
+                            </script>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Save</button>
+            <button type="reset" class="btn btn-danger"><i class="fa fa-refresh"></i> Reset</button>
+          
+         
+          <!-- /.box -->
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      </form>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <script type="text/javascript">
+tinymce.remove();
+    tinymce.init({
+      selector: '.tinymce',
+      plugins: "localautosave",
+      toolbar1: "localautosave",
+      las_seconds: 15,
+      las_nVersions: 15,
+      las_keyName: "LocalAutoSave",
+      las_callback: function() {
+        var content = this.content; //content saved
+        var time = this.time; //time on save action
+      }
+    });
+
+      $("#upload-create").submit(function(){
+              var form = $(this);
+            var mydata = new FormData(this);
+            $.ajax({
+                  type: "POST",
+                url: form.attr("action"),
+                data: mydata,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend : function(){
+                      $(".btn-send").addClass("disabled").html("<i class='la la-spinner la-spin'></i>  Processing...").attr('disabled',true);
+                    form.find(".show_error").slideUp().html("");
+                },
+                success: function(response, textStatus, xhr) {
+                  
+                      // alert(mydata);
+                   var str = response;
+                    if (str.indexOf("success") != -1){
+                          Swal.fire({
+                              title: "It works!",
+                              text: "Successfully added data",
+                              icon: "success"
+                          });
+                          // form.find(".show_error").hide().html(response).slideDown("fast");
+                        setTimeout(function(){ 
+                             window.location.href = "<?= base_url('master/Sponsorship') ?>";
+                        }, 1000);
+                        $(".btn-send").removeClass("disabled").html('<i class="fa fa-save"></i> Save').attr('disabled',false);
+                    }else{
+                        Swal.fire({
+                          title: "Oppss!",
+                          html: str,
+                          icon: "error"
+                        });
+                          // form.find(".show_error").hide().html(response).slideDown("fast");
+                        $(".btn-send").removeClass("disabled").html('<i class="fa fa-save"></i> Save').attr('disabled',false);
+
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    Swal.fire({
+                        title: "Oppss!",
+                        text: xhr,
+                        icon: "error"
+                    });
+                    $(".btn-send").removeClass("disabled").html('<i class="fa fa-save"></i> Save').attr('disabled',false);
+                    // form.find(".show_error").hide().html(xhr).slideDown("fast");
+                }
+            });
+            return false;
+
+        });
+  </script>
