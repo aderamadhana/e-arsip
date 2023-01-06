@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'dev.alfahuma.tech',
-	'username' => 'us3r',
-	'password' => '#Sismik123',
+	'hostname' => '',
+	'username' => '',
+	'password' => '',
 	// 'hostname' => 'localhost',
 	// 'username' => 'root',
 	// 'password' => '',
