@@ -580,7 +580,7 @@ function ubahNosurat() {
 	if(txt_tipesuratkeluar=='2'){ //tipe surat divisi,tidak menggunakan team leader
 		var divisi = $("#txt-divisi").val()
 		if(departemen_id!=''){
-			let param_url = `?departement_id=${departemen_id}&id_team_leader=&sifat_surat=${txt_sifatsurat}&tipe_surat_keluar=${tipe_surat_keluar}&kodesifatsurat=${sifatsurat}`
+			let param_url = `?departement_id=${departemen_id}&id_team_leader=&sifat_surat=${txt_sifatsurat}&tipe_surat_keluar=${tipe_surat_keluar}&kodesifatsurat=${sifatsurat}&tahun=${tahun}`
 			$.get('<?= base_url("Arsip_dokumen/generateNoSuratByDepartment") ?>'+param_url,function(result){
 				let parsed_json_result = JSON.parse(result)
 				let id_arsip = '<?= $id_arsip ?>'
@@ -599,7 +599,7 @@ function ubahNosurat() {
 		var gen_nosurat = sifatsurat+'.'+nosurat+'-'+tipe_surat_keluar+'/'+departemen+'/'+bulan+'/'+tahun;
 		$('#txt-nomorsurat').val(gen_nosurat);
 		if(departemen_id!='' && id_team_leader!=''){
-			let param_url = `?departement_id=${departemen_id}&id_team_leader=${id_team_leader}&sifat_surat=${txt_sifatsurat}&tipe_surat_keluar=${tipe_surat_keluar}&kodesifatsurat=${sifatsurat}`
+			let param_url = `?departement_id=${departemen_id}&id_team_leader=${id_team_leader}&sifat_surat=${txt_sifatsurat}&tipe_surat_keluar=${tipe_surat_keluar}&kodesifatsurat=${sifatsurat}&tahun=${tahun}`
 			$.get('<?= base_url("Arsip_dokumen/generateNoSuratByDepartment") ?>'+param_url,function(result){
 				let parsed_json_result = JSON.parse(result)
 				let id_arsip = '<?= $id_arsip ?>'

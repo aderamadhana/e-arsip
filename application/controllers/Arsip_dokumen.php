@@ -1209,18 +1209,21 @@ class Arsip_dokumen extends MY_Controller
 		$sifat_surat = $this->input->get('sifat_surat');
 		$tipe_surat_keluar = $this->input->get('tipe_surat_keluar');
 		$kodesifatsurat = $this->input->get('kodesifatsurat');
-		$current_year = date('Y');
+		// $current_year = date('Y');
+		$current_year = $this->input->get('tahun');
 		$this->db->select("ad_nomorsurat");
 		$this->db->like('ad_nomorsurat', $kodesifatsurat . '.');
 		$this->db->like('ad_nomorsurat', '-' . $tipe_surat_keluar . '/');
 		$this->db->where('ad_tipesurat', 'Surat Keluar');
 		$this->db->where('status !=', 'dihapus');
-		$this->db->where('YEAR(ad_tanggalsurat)', $current_year);
 		$this->db->where('ad_departemen', $departement_id);
+		$this->db->where('ad_sifatsurat', $sifat_surat);
+
+		$this->db->where('YEAR(ad_tanggalsurat)', $current_year);
+
 		if ($id_team_leader != "") {
 			$this->db->where('ad_id_teamleader', $id_team_leader);
-		}
-		$this->db->where('ad_sifatsurat', $sifat_surat);
+		}		
 		$this->db->order_by('ad_id', 'desc');
 		$this->db->order_by('ad_nomorsurat', 'desc');
 		// $id = $this->db->get('arsip_dokumen')->row()->id;
